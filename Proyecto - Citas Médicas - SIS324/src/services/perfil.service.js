@@ -1,5 +1,4 @@
 import { Perfil } from '../models/perfil.js';
-import bcrypt from 'bcrypt';
 
 export const createPerfil = async (data) => {
     try {
@@ -37,37 +36,33 @@ export const deletePerfil = async (id) => {
     }
 };
 
-export const login = async (email, password) => {
+export const getAllPerfiles = async () => {
     try {
-        const perfil = await Perfil.findOne({ where: { email } });
-        if (!perfil) throw new Error('Usuario no encontrado');
-
-        const isValid = await bcrypt.compare(password, perfil.password);
-        if (!isValid) throw new Error('Contraseña incorrecta');
-
-        return perfil;
+        const perfiles = await Perfil.findAll();
+        return perfiles;
     } catch (error) {
         throw error;
     }
 };
 
-export const logout = async (userId) => {
-    // Implementación de cierre de sesión (esto puede variar según la estrategia de sesión utilizada)
-    return true;
+export const login = async (email, contraseña) => {
+    try {
+        const perfil = await Perfil.findOne({ where: { email, contraseña } });
+        if (!perfil) throw new Error('Credenciales incorrectas');
+
+        // Aquí podrías implementar la generación de un token de sesión
+        // Por simplicidad, en este ejemplo, solo devuelvo un mensaje
+        return { message: 'Inicio de sesión exitoso' };
+    } catch (error) {
+        throw error;
+    }
 };
 
-export const changePassword = async (id, oldPassword, newPassword) => {
+export const logout = async () => {
     try {
-        const perfil = await Perfil.findByPk(id);
-        if (!perfil) throw new Error('Usuario no encontrado');
-
-        const isValid = await bcrypt.compare(oldPassword, perfil.password);
-        if (!isValid) throw new Error('Contraseña incorrecta');
-
-        perfil.password = await bcrypt.hash(newPassword, 10);
-        await perfil.save();
-
-        return perfil;
+        // Aquí podrías implementar la lógica de cierre de sesión
+        // Por simplicidad, en este ejemplo, solo devuelvo un mensaje
+        return { message: 'Sesión cerrada correctamente' };
     } catch (error) {
         throw error;
     }

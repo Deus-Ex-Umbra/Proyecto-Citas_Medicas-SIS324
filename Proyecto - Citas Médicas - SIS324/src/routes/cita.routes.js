@@ -10,5 +10,6 @@ router.delete('/:id', citaController.deleteCita);
 router.get('/paciente/:pacienteId', citaController.getCitasByPacienteId);
 router.get('/medico/:medicoId', citaController.getCitasByMedicoId);
 router.get('/fecha/:fecha', citaController.getCitasByFecha);
+router.get('/', citaController.getAllCitas);
 
 export default router;

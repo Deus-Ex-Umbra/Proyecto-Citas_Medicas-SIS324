@@ -74,3 +74,12 @@ export const getCitasByFecha = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getAllCitas = async (req, res) => {
+    try {
+        const citas = await citaService.getAllCitas();
+        res.status(200).json(citas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

@@ -56,3 +56,12 @@ export const getItemsCitaByCitaId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getAllItemCita = async (req, res) => {
+    try {
+        const itemsCita = await itemCitaService.getAllItemCita();
+        res.status(200).json(itemsCita);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

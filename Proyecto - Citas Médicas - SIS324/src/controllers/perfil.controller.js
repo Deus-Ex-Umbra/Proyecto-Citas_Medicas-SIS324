@@ -50,8 +50,9 @@ export const deletePerfil = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const perfil = await perfilService.login(req.body.email, req.body.password);
-        res.status(200).json(perfil);
+        const { email, contraseña } = req.body;
+        const token = await perfilService.login(email, contraseña);
+        res.json(token);
     } catch (error) {
         res.status(401).json({ error: error.message });
     }
@@ -59,18 +60,18 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        // Implementación de logout
-        res.status(200).json({ message: 'Logout exitoso' });
+        const result = await perfilService.logout();
+        res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-export const changePassword = async (req, res) => {
+export const getAllPerfiles = async (req, res) => {
     try {
-        const perfil = await perfilService.changePassword(req.params.id, req.body.oldPassword, req.body.newPassword);
-        res.status(200).json(perfil);
+      const perfiles = await perfilService.getAllPerfiles();
+      res.json(perfiles);
     } catch (error) {
-        res.status(401).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
 };

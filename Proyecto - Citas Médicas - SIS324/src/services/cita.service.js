@@ -62,3 +62,12 @@ export const getCitasByFecha = async (fecha) => {
         throw error;
     }
 };
+
+export const getAllCitas = async () => {
+    try {
+        const citas = await Cita.findAll();
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};

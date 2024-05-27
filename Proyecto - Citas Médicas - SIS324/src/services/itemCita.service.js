@@ -44,3 +44,12 @@ export const getItemsCitaByCitaId = async (citaId) => {
         throw error;
     }
 };
+
+export const getAllItemCita = async () => {
+    try {
+        const itemsCita = await ItemCita.findAll();
+        return itemsCita;
+    } catch (error) {
+        throw error;
+    }
+};

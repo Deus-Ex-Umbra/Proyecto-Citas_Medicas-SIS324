@@ -9,6 +9,6 @@ router.put('/:id', perfilController.updatePerfil);
 router.delete('/:id', perfilController.deletePerfil);
 router.post('/login', perfilController.login);
 router.post('/logout', perfilController.logout);
-router.post('/change-password/:id', perfilController.changePassword);
+router.get('/', perfilController.getAllPerfiles);
 
 export default router;
