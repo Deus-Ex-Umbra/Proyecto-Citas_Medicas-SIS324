@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+
 export const Horario = sequelize.define('horario', {
     id: {
         type: DataTypes.INTEGER,

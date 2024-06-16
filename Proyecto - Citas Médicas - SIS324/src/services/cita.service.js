@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Cita } from '../models/cita.js';
 
 export const createCita = async (data) => {
@@ -67,6 +68,41 @@ export const getAllCitas = async () => {
     try {
         const citas = await Cita.findAll();
         return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasPendientesByPacienteId = async (pacienteId) => {
+    try {
+        const now = new Date();
+        const citasPendientes = await Cita.findAll({
+            where: {
+                pacienteId,
+                fechaHora: {
+                    [Op.gt]: now
+                }
+            }
+        });
+        return citasPendientes;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasPendientesByMedicoIdFecha = async (medicoId, fecha) => {
+    try {
+        const now = new Date();
+        const citasPendientes = await Cita.findAll({
+            where: {
+                medicoId,
+                fechaHora: {
+                    [Op.gt]: now,
+                    [Op.startsWith]: fecha
+                }
+            }
+        });
+        return citasPendientes;
     } catch (error) {
         throw error;
     }

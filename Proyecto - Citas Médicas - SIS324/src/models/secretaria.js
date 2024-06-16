@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+import { Perfil } from '../models/perfil.js';
+
 export const Secretaria = sequelize.define ('secretaria', {
     id: {
         type: DataTypes.INTEGER,
@@ -31,7 +33,17 @@ export const Secretaria = sequelize.define ('secretaria', {
         type: DataTypes.STRING,
         default: "activo",
         allowNull: false
+    },
+    perfilId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Perfil,
+            key: 'id'
+        }
     }
 }, {
     timestamps: false
 });
+
+Perfil.hasMany(Secretaria, { foreignKey: 'perfilId' });
+Secretaria.belongsTo(Perfil, { foreignKey: 'perfilId' });

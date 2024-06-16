@@ -57,6 +57,15 @@ export const getCitasByPacienteId = async (req, res) => {
     }
 };
 
+export const getCitasPendientesByPacienteId = async (req, res) => {
+    try {
+        const citas = await citaService.getCitasPendientesByPacienteId(req.params.pacienteId);
+        res.status(200).json(citas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const getCitasByMedicoId = async (req, res) => {
     try {
         const citas = await citaService.getCitasByMedicoId(req.params.medicoId);
@@ -78,6 +87,15 @@ export const getCitasByFecha = async (req, res) => {
 export const getAllCitas = async (req, res) => {
     try {
         const citas = await citaService.getAllCitas();
+        res.status(200).json(citas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getCitasPendientesByMedicoIdFecha = async (req, res) => {
+    try {
+        const citas = await citaService.getCitasPendientesByMedicoIdFecha(req.params.medicoId, req.params.fecha);
         res.status(200).json(citas);
     } catch (error) {
         res.status(500).json({ error: error.message });

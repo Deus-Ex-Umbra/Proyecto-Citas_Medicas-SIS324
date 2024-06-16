@@ -7,7 +7,7 @@ import pacienteRoutes from '../src/routes/paciente.routes.js';
 import secretariaRoutes from '../src/routes/secretaria.routes.js';
 import citaRoutes from '../src/routes/cita.routes.js';
 import horarioRoutes from '../src/routes/horario.routes.js';
-import itemCitaRoutes from '../src/routes/itemCita.routes.js';
+import pagoRoutes from '../src/routes/pago.routes.js';
 
 const app = express();
 app.use(morgan('dev'));
@@ -19,7 +19,7 @@ app.use('/paciente', pacienteRoutes);
 app.use('/secretaria', secretariaRoutes);
 app.use('/cita', citaRoutes);
 app.use('/horario', horarioRoutes);
-app.use('/item-cita', itemCitaRoutes);
+app.use('/pago', pagoRoutes);
 
 const PORT = process.env.PORT || 3000;
 
