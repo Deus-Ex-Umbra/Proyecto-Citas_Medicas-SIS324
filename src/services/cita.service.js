@@ -126,3 +126,74 @@ export const deleteCita = async (id) => {
         throw error;
     }
 };
+
+export const getCitasByPacienteId = async (pacienteId) => {
+    try {
+        const citas = await Cita.findAll({
+            where: { pacienteId }
+        });
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasPendientesByPacienteId = async (pacienteId) => {
+    try {
+        const citas = await Cita.findAll({
+            where: {
+                pacienteId,
+                estado: 'pendiente'
+            }
+        });
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasByMedicoId = async (medicoId) => {
+    try {
+        const citas = await Cita.findAll({
+            where: { medicoId }
+        });
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasPendientesByMedicoIdFecha = async (medicoId, fecha) => {
+    try {
+        const citas = await Cita.findAll({
+            where: {
+                medicoId,
+                fechaHora: fecha,
+                estado: 'pendiente'
+            }
+        });
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCitasByFecha = async (fecha) => {
+    try {
+        const citas = await Cita.findAll({
+            where: { fechaHora: fecha }
+        });
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllCitas = async () => {
+    try {
+        const citas = await Cita.findAll();
+        return citas;
+    } catch (error) {
+        throw error;
+    }
+};

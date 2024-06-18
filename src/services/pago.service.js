@@ -26,7 +26,6 @@ export const createPago = async (data) => {
 
         const cita = await Cita.create(citaData, { transaction });
 
-        // Crear o actualizar el horario
         let horario = await Horario.findOne({
             where: {
                 fecha: data.fecha,
@@ -49,11 +48,9 @@ export const createPago = async (data) => {
             }, { transaction });
         }
 
-        // Actualizar estado de disponibilidad del horario
         horario.estado = 'no disponible';
         await horario.save({ transaction });
 
-        // Asignar horarioId a la cita y guardar
         cita.horarioId = horario.id;
         await cita.save({ transaction });
 
@@ -82,10 +79,8 @@ export const updatePago = async (id, data) => {
             throw new Error('Pago no encontrado');
         }
 
-        // Actualizar el pago
         await Pago.update(data, { where: { id }, transaction });
 
-        // Actualizar la cita relacionada
         const cita = await Cita.findOne({ where: { descripcion: `Pago por cita ${id}` }, transaction });
         if (cita) {
             await Cita.update({
@@ -96,7 +91,6 @@ export const updatePago = async (id, data) => {
             }, { where: { id: cita.id }, transaction });
         }
 
-        // Actualizar el horario
         let horario = await Horario.findOne({
             where: {
                 fecha: data.fecha,
@@ -119,11 +113,9 @@ export const updatePago = async (id, data) => {
             }, { transaction });
         }
 
-        // Actualizar estado de disponibilidad del horario
         horario.estado = 'no disponible';
         await horario.save({ transaction });
 
-        // Asignar horarioId a la cita y guardar
         cita.horarioId = horario.id;
         await cita.save({ transaction });
 
@@ -144,6 +136,31 @@ export const deletePago = async (id) => {
         return true;
     } catch (error) {
         await transaction.rollback();
+        throw error;
+    }
+};
+
+export const getPagosByPacienteIdAndPeriodo = async (pacienteId, startDate, endDate) => {
+    try {
+        const pagos = await Pago.findAll({
+            where: {
+                pacienteId,
+                fecha: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+        return pagos;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllPagos = async () => {
+    try {
+        const pagos = await Pago.findAll();
+        return pagos;
+    } catch (error) {
         throw error;
     }
 };
