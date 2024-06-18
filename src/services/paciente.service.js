@@ -1,4 +1,5 @@
 import { Paciente } from '../models/paciente.js';
+import { Perfil } from '../models/perfil.js';
 
 export const createPaciente = async (data) => {
     try {
@@ -18,6 +19,7 @@ export const createPaciente = async (data) => {
         throw error;
     }
 };
+
 export const getPacienteById = async (id) => {
     try {
         const paciente = await Paciente.findByPk(id);

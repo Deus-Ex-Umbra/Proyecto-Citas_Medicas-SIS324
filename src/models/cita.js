@@ -14,53 +14,43 @@ export const Cita = sequelize.define('cita', {
     },
     fechaHora: {
         type: DataTypes.DATE,
-        defaultValue: new Date(),
-        allowNull: false
+        defaultValue: new Date()
     },
     estado: {
         type: DataTypes.STRING,
-        defaultValue: "pendiente",
-        allowNull: false
+        defaultValue: "pendiente"
     },
     costo: {
         type: DataTypes.DOUBLE,
-        defaultValue: 0.0,
-        allowNull: false
+        defaultValue: 0.0
     },
     descripcion: {
         type: DataTypes.STRING,
-        defaultValue: "",
-        allowNull: false
+        defaultValue: ""
     },
     tipoConsulta: {
         type: DataTypes.STRING,
-        defaultValue: "",
-        allowNull: false
+        defaultValue: ""
     },
     formaPago: {
         type: DataTypes.STRING,
-        defaultValue: "efectivo",
-        allowNull: false
+        defaultValue: "efectivo"
     },
     observacion: {
         type: DataTypes.STRING,
-        defaultValue: "Sin Observaciones",
-        allowNull: false
+        defaultValue: "Sin Observaciones"
     },
     prioridad: {
         type: DataTypes.STRING,
-        defaultValue: "normal",
-        allowNull: false
+        defaultValue: "normal"
     },
     duracion: {
         type: DataTypes.INTEGER,
-        defaultValue: 30,
-        allowNull: false
+        defaultValue: 30
     },
     ubicacion: {
         type: DataTypes.STRING,
-        defaultValue: "consultorio",
-        allowNull: false
+        defaultValue: "consultorio"
     },
     pacienteId: {
         type: DataTypes.INTEGER,

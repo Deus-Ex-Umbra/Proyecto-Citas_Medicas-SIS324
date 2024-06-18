@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Perfil } from './perfil.js';
+import { Perfil } from '../models/perfil.js';
 
 export const Horario = sequelize.define('horario', {
     id: {
@@ -11,23 +11,19 @@ export const Horario = sequelize.define('horario', {
     },
     turno: {
         type: DataTypes.STRING,
-        defaultValue: "",
-        allowNull: false
+        defaultValue: ""
     },
     estado: {
         type: DataTypes.STRING,
-        defaultValue: "disponible",
-        allowNull: false
+        defaultValue: "disponible"
     },
     fecha: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: false
+        defaultValue: DataTypes.NOW
     },
     hora: {
         type: DataTypes.TIME,
-        defaultValue: "00:00:00",
-        allowNull: false
+        defaultValue: "00:00:00"
     },
     perfilId: {
         type: DataTypes.INTEGER,
@@ -35,7 +31,6 @@ export const Horario = sequelize.define('horario', {
             model: Perfil,
             key: 'id'
         },
-        allowNull: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     }

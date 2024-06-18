@@ -1,4 +1,5 @@
 import { Medico } from '../models/medico.js';
+import { Perfil } from '../models/perfil.js';
 
 export const createMedico = async (data) => {
     try {

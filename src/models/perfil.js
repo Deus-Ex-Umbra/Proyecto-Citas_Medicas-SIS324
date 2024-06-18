@@ -5,61 +5,51 @@ export const Perfil = sequelize.define('perfil', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
+        primaryKey: true
     },
     nombre: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     apellido: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false,
+        default: ""
     },
     email: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     telefono: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     contraseña: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     foto: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     direccion: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     fecha_nacimiento: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        default: new Date()
     },
     genero: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     CI: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     tipo_perfil: {
         type: DataTypes.STRING,
-        default: "paciente",
-        allowNull: false
+        default: "paciente"
     }
 }, {
     timestamps: false

@@ -11,12 +11,11 @@ export const Medico = sequelize.define('medico', {
     },
     especialidad: {
         type: DataTypes.STRING,
-        allowNull: true
+        defaultValue: "general"
     },
     disponibilidad: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
-        allowNull: false
+        defaultValue: true
     },
     perfilId: {
         type: DataTypes.INTEGER,

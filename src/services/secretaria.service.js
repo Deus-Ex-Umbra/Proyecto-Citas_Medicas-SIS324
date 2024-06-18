@@ -1,4 +1,5 @@
 import { Secretaria } from '../models/secretaria.js';
+import { Perfil } from '../models/perfil.js';
 
 export const createSecretaria = async (data) => {
     try {

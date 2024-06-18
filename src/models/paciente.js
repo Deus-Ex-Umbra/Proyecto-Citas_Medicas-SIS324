@@ -6,48 +6,39 @@ export const Paciente = sequelize.define('paciente', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
+        primaryKey: true
     },
     historial_citas: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     tipo_sangre: {
         type: DataTypes.STRING,
-        default: "ORH(+)",
-        allowNull: false
+        default: "ORH(+)"
     },
     seguridad_social: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     estado_fisico: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     enfermedad_de_base: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     cirugias: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     medicamentos: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     alergias: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     perfilId: {
         type: DataTypes.INTEGER,

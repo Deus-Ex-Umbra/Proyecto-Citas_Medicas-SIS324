@@ -11,28 +11,23 @@ export const Secretaria = sequelize.define ('secretaria', {
     },
     turno: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     antiguedad: {
         type: DataTypes.INTEGER,
-        default: 1,
-        allowNull: false
+        default: 1
     },
     fechaContrato: {
         type: DataTypes.DATE,
-        default: new Date(),
-        allowNull: false
+        default: new Date()
     },
     experiencia: {
         type: DataTypes.STRING,
-        default: "",
-        allowNull: false
+        default: ""
     },
     estado: {
         type: DataTypes.STRING,
-        default: "activo",
-        allowNull: false
+        default: "activo"
     },
     perfilId: {
         type: DataTypes.INTEGER,
@@ -40,7 +35,6 @@ export const Secretaria = sequelize.define ('secretaria', {
             model: Perfil,
             key: 'id'
         },
-        allowNull: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     }

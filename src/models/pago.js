@@ -9,12 +9,10 @@ export const Pago = sequelize.define('pago', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
+        primaryKey: true
     },
     pacienteId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: Paciente,
             key: 'id'
@@ -22,24 +20,22 @@ export const Pago = sequelize.define('pago', {
     },
     monto: {
         type: DataTypes.DOUBLE,
-        allowNull: false
+        defaultValue: 0.0
     },
     fecha: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: false
+        defaultValue: DataTypes.NOW
     },
     metodoPago: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: "efectivo"
     },
     descripcion: {
         type: DataTypes.STRING,
-        allowNull: true
+        defaultValue: ""
     },
     medicoId : {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: Medico,
             key: 'id'
@@ -47,7 +43,6 @@ export const Pago = sequelize.define('pago', {
     },
     secretariaId : {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: Secretaria,
             key: 'id'
@@ -55,7 +50,6 @@ export const Pago = sequelize.define('pago', {
     },
     horarioId : {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: Horario,
             key: 'id'
