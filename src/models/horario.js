@@ -1,4 +1,3 @@
-// models/horario.js
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { Medico } from '../models/medico.js';

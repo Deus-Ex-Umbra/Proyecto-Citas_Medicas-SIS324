@@ -1,4 +1,3 @@
-// services/horario.service.js
 import { Horario } from '../models/horario.js';
 import * as ItemHorarioService from '../services/itemhorario.service.js';
 
@@ -111,6 +110,42 @@ export const getHorarios = async () => {
 export const getHorariosByMedicoId = async (medicoId) => {
     try {
         const horarios = await Horario.findAll({ where: { medicoId } });
+        return horarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getHorariosByDia = async (dia) => {
+    try {
+        const horarios = await Horario.findAll({ where: { dia } });
+        return horarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getHorariosByTurno = async (turno) => {
+    try {
+        const horarios = await Horario.findAll({ where: { turno } });
+        return horarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getHorariosByMedicoIdAndDia = async (medicoId, dia) => {
+    try {
+        const horarios = await Horario.findAll({ where: { medicoId, dia } });
+        return horarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getHorariosByMedicoIdAndTurno = async (medicoId, turno) => {
+    try {
+        const horarios = await Horario.findAll({ where: { medicoId, turno } });
         return horarios;
     } catch (error) {
         throw error;

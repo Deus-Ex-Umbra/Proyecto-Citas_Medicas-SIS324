@@ -65,3 +65,40 @@ export const getHorariosByMedicoId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getHorariosByDia = async (req, res) => {
+    try {
+        const horarios = await horarioService.getHorariosByDia(req.query.dia);
+        res.status(200).json(horarios);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getHorariosByTurno = async (req, res) => {
+    try {
+        const horarios = await horarioService.getHorariosByTurno(req.query.turno);
+        res.status(200).json(horarios);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getHorariosByMedicoIdAndDia = async (req, res) => {
+    try {
+        const horarios = await horarioService.getHorariosByMedicoIdAndDia(req.params.medicoId, req.query.dia);
+        res.status(200).json(horarios);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getHorariosByMedicoIdAndTurno = async (req, res) => {
+    try {
+        const horarios = await horarioService.getHorariosByMedicoIdAndTurno(req.params.medicoId, req.query.turno);
+        res.status(200).json(horarios);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+

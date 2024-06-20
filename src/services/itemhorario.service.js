@@ -62,3 +62,46 @@ export const deleteItemHorariosByHorarioId = async (horarioId) => {
         throw error;
     }
 };
+
+export const getItemHorarioByMedicoDiaHora = async (medicoId, dia, hora) => {
+    try {
+        const itemHorario = await ItemHorario.findOne({
+            where: {
+                medicoId,
+                dia,
+                hora
+            }
+        });
+        return itemHorario;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getItemHorariosByDia = async (dia) => {
+    try {
+        const itemHorarios = await ItemHorario.findAll({ where: { dia } });
+        return itemHorarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getItemHorariosByHora = async (hora) => {
+    try {
+        const itemHorarios = await ItemHorario.findAll({ where: { hora } });
+        return itemHorarios;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getItemHorariosByEstado = async (estado) => {
+    try {
+        const itemHorarios = await ItemHorario.findAll({ where: { estado } });
+        return itemHorarios;
+    } catch (error) {
+        throw error;
+    }
+};
+

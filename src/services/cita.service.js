@@ -160,3 +160,4 @@ export const getAllCitas = async () => {
         throw error;
     }
 };
+
