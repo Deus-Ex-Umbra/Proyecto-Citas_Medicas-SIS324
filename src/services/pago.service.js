@@ -102,3 +102,25 @@ export const getAllPagos = async () => {
         throw error;
     }
 };
+
+
+export const getPagosByPacienteInPeriod = async (pacienteId, fechaInicio, fechaFin) => {
+    try {
+        const startDate = new Date(fechaInicio);
+        const endDate = new Date(fechaFin);
+        console.log(`Consulta - pacienteId: ${pacienteId}, fechaInicio: ${startDate}, fechaFin: ${endDate}`); // Añade este log
+        
+        const pagos = await Pago.findAll({
+            where: {
+                pacienteId,
+                fecha: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+        console.log(`Resultados de la consulta: ${JSON.stringify(pagos)}`); // Añade este log
+        return pagos;
+    } catch (error) {
+        throw error;
+    }
+};

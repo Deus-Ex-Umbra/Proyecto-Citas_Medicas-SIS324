@@ -48,3 +48,14 @@ export const getAllPagos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getPagosByPacienteInPeriodController = async (req, res) => {
+    const { pacienteId, fechaInicio, fechaFin } = req.query;
+    console.log(`Controlador - pacienteId: ${pacienteId}, fechaInicio: ${fechaInicio}, fechaFin: ${fechaFin}`); // Añade este log
+    try {
+        const pagos = await getPagosByPacienteInPeriod(pacienteId, fechaInicio, fechaFin);
+        res.status(200).json(pagos);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

@@ -8,5 +8,6 @@ router.get('/:id', pagoController.getPagoById);
 router.put('/:id', pagoController.updatePago);
 router.delete('/:id', pagoController.deletePago);
 router.get('/', pagoController.getAllPagos);
+router.get('/pago/periodo', pagoController.getPagosByPacienteInPeriodController);
 
 export default router;
