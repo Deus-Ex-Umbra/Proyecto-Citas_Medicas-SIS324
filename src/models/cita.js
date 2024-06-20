@@ -3,7 +3,7 @@ import { sequelize } from "../database/database.js";
 import { Paciente } from '../models/paciente.js';
 import { Secretaria } from '../models/secretaria.js';
 import { Medico } from '../models/medico.js';
-import { Horario } from '../models/horario.js';
+import { ItemHorario } from '../models/itemhorario.js';
 
 export const Cita = sequelize.define('cita', {
     id: {
@@ -79,10 +79,10 @@ export const Cita = sequelize.define('cita', {
             onUpdate: 'CASCADE'
         }
     },
-    horarioId: {
+    itemhorarioId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Horario,
+            model: ItemHorario,
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -101,5 +101,5 @@ Cita.belongsTo(Secretaria, { foreignKey: 'secretariaId', as: 'secretaria'});
 Medico.hasMany(Cita, { foreignKey: 'medicoId', as: 'cita'});
 Cita.belongsTo(Medico, { foreignKey: 'medicoId', as: 'medico' });
 
-Horario.hasMany(Cita, { foreignKey: 'horarioId', as: 'cita'});
-Cita.belongsTo(Horario, { foreignKey: 'horarioId', as: 'horario'});
+ItemHorario.hasMany(Cita, { foreignKey: 'horarioId', as: 'cita'});
+Cita.belongsTo(ItemHorario, { foreignKey: 'horarioId', as: 'horario'});

@@ -40,15 +40,6 @@ export const deletePago = async (req, res) => {
     }
 };
 
-export const getPagosByPacienteIdAndPeriodo = async (req, res) => {
-    try {
-        const pagos = await pagoService.getPagosByPacienteIdAndPeriodo(req.params.pacienteId, req.params.startDate, req.params.endDate);
-        res.status(200).json(pagos);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
 export const getAllPagos = async (req, res) => {
     try {
         const pagos = await pagoService.getAllPagos();

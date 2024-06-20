@@ -1,7 +1,6 @@
 import { Cita } from '../models/cita.js';
 import { Pago } from '../models/pago.js';
-import { Horario } from '../models/horario.js';
-import { Medico } from '../models/medico.js';
+import { ItemHorario } from '../models/itemhorario.js';
 import { sequelize } from '../database/database.js';
 
 export const createCita = async (data) => {
@@ -14,39 +13,19 @@ export const createCita = async (data) => {
             fecha: data.fechaHora,
             metodoPago: data.formaPago,
             descripcion: `Pago por cita ${cita.id}`,
-            medicoId: data.medicoId,
-            secretariaId: data.secretariaId,
-            horarioId: data.horarioId
+            citaId: cita.id
         };
         const pago = await Pago.create(pagoData, { transaction });
-        let horario = await Horario.findOne({
-            where: {
-                fecha: data.fechaHora,
-                medicoId: data.medicoId
-            },
-            transaction
-        });
 
-        if (!horario) {
-            const medico = await Medico.findByPk(data.medicoId, { transaction });
-            if (!medico || !medico.disponibilidad) {
-                throw new Error('El médico no está disponible en esta fecha');
-            }
-
-            horario = await Horario.create({
-                fecha: data.fechaHora,
-                turno: 'Turno',
-                estado: 'disponible',
-                perfilId: data.medicoId
-            }, { transaction });
+        // Actualizar el estado de ItemHorario a 'no disponible'
+        const itemHorario = await ItemHorario.findByPk(data.itemhorarioId, { transaction });
+        if (itemHorario) {
+            itemHorario.estado = 'no disponible';
+            await itemHorario.save({ transaction });
         }
-        horario.estado = 'no disponible';
-        await horario.save({ transaction });
-        cita.horarioId = horario.id;
-        await cita.save({ transaction });
 
         await transaction.commit();
-        return {cita, pago};
+        return { cita, pago };
     } catch (error) {
         await transaction.rollback();
         throw error;
@@ -70,7 +49,8 @@ export const updateCita = async (id, data) => {
             throw new Error('Cita no encontrada');
         }
         await Cita.update(data, { where: { id }, transaction });
-        const pago = await Pago.findOne({ where: { descripcion: `Pago por cita ${id}` }, transaction });
+
+        const pago = await Pago.findOne({ where: { citaId: id }, transaction });
         if (pago) {
             await Pago.update({
                 monto: data.costo,
@@ -79,32 +59,20 @@ export const updateCita = async (id, data) => {
             }, { where: { id: pago.id }, transaction });
         }
 
-        let horario = await Horario.findOne({
-            where: {
-                fecha: data.fechaHora,
-                medicoId: data.medicoId
-            },
-            transaction
-        });
-
-        if (!horario) {
-            const medico = await Medico.findByPk(data.medicoId, { transaction });
-            if (!medico || !medico.disponibilidad) {
-                throw new Error('El médico no está disponible en esta fecha');
+        // Actualizar el estado del ItemHorario si ha cambiado
+        if (data.itemhorarioId && data.itemhorarioId !== cita.itemhorarioId) {
+            const oldItemHorario = await ItemHorario.findByPk(cita.itemhorarioId, { transaction });
+            if (oldItemHorario) {
+                oldItemHorario.estado = 'disponible';
+                await oldItemHorario.save({ transaction });
             }
 
-            horario = await Horario.create({
-                fecha: data.fechaHora,
-                turno: 'Turno',
-                estado: 'disponible',
-                perfilId: data.medicoId
-            }, { transaction });
+            const newItemHorario = await ItemHorario.findByPk(data.itemhorarioId, { transaction });
+            if (newItemHorario) {
+                newItemHorario.estado = 'no disponible';
+                await newItemHorario.save({ transaction });
+            }
         }
-
-        horario.estado = 'no disponible';
-        await horario.save({ transaction });
-        cita.horarioId = horario.id;
-        await cita.save({ transaction });
 
         await transaction.commit();
         return cita;
@@ -117,8 +85,20 @@ export const updateCita = async (id, data) => {
 export const deleteCita = async (id) => {
     const transaction = await sequelize.transaction();
     try {
+        const cita = await Cita.findByPk(id, { transaction });
+        if (!cita) {
+            throw new Error('Cita no encontrada');
+        }
+
+        const itemHorario = await ItemHorario.findByPk(cita.itemhorarioId, { transaction });
+        if (itemHorario) {
+            itemHorario.estado = 'disponible';
+            await itemHorario.save({ transaction });
+        }
+
+        await Pago.destroy({ where: { citaId: id }, transaction });
         await Cita.destroy({ where: { id }, transaction });
-        await Pago.destroy({ where: { descripcion: `Pago por cita ${id}` }, transaction });
+
         await transaction.commit();
         return true;
     } catch (error) {
@@ -129,9 +109,7 @@ export const deleteCita = async (id) => {
 
 export const getCitasByPacienteId = async (pacienteId) => {
     try {
-        const citas = await Cita.findAll({
-            where: { pacienteId }
-        });
+        const citas = await Cita.findAll({ where: { pacienteId } });
         return citas;
     } catch (error) {
         throw error;
@@ -140,12 +118,7 @@ export const getCitasByPacienteId = async (pacienteId) => {
 
 export const getCitasPendientesByPacienteId = async (pacienteId) => {
     try {
-        const citas = await Cita.findAll({
-            where: {
-                pacienteId,
-                estado: 'pendiente'
-            }
-        });
+        const citas = await Cita.findAll({ where: { pacienteId, estado: 'pendiente' } });
         return citas;
     } catch (error) {
         throw error;
@@ -154,9 +127,7 @@ export const getCitasPendientesByPacienteId = async (pacienteId) => {
 
 export const getCitasByMedicoId = async (medicoId) => {
     try {
-        const citas = await Cita.findAll({
-            where: { medicoId }
-        });
+        const citas = await Cita.findAll({ where: { medicoId } });
         return citas;
     } catch (error) {
         throw error;
@@ -165,13 +136,7 @@ export const getCitasByMedicoId = async (medicoId) => {
 
 export const getCitasPendientesByMedicoIdFecha = async (medicoId, fecha) => {
     try {
-        const citas = await Cita.findAll({
-            where: {
-                medicoId,
-                fechaHora: fecha,
-                estado: 'pendiente'
-            }
-        });
+        const citas = await Cita.findAll({ where: { medicoId, fechaHora: fecha, estado: 'pendiente' } });
         return citas;
     } catch (error) {
         throw error;
@@ -180,9 +145,7 @@ export const getCitasPendientesByMedicoIdFecha = async (medicoId, fecha) => {
 
 export const getCitasByFecha = async (fecha) => {
     try {
-        const citas = await Cita.findAll({
-            where: { fechaHora: fecha }
-        });
+        const citas = await Cita.findAll({ where: { fechaHora: fecha } });
         return citas;
     } catch (error) {
         throw error;

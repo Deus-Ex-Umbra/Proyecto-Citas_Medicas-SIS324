@@ -1,6 +1,7 @@
+// models/horario.js
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Perfil } from '../models/perfil.js';
+import { Medico } from '../models/medico.js';
 
 export const Horario = sequelize.define('horario', {
     id: {
@@ -13,22 +14,26 @@ export const Horario = sequelize.define('horario', {
         type: DataTypes.STRING,
         defaultValue: ""
     },
-    estado: {
+    dia: {
         type: DataTypes.STRING,
-        defaultValue: "disponible"
+        defaultValue: ""
     },
-    fecha: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+    tiempoConsulta: {
+        type: DataTypes.INTEGER,
+        defaultValue: 15
     },
-    hora: {
-        type: DataTypes.TIME,
-        defaultValue: "00:00:00"
+    horaInicio: {
+        type: DataTypes.INTEGER,
+        defaultValue: 8
     },
-    perfilId: {
+    horaFin: {
+        type: DataTypes.INTEGER,
+        defaultValue: 12
+    },
+    medicoId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Perfil,
+            model: Medico,
             key: 'id'
         },
         onDelete: 'CASCADE',
@@ -38,5 +43,5 @@ export const Horario = sequelize.define('horario', {
     timestamps: false
 });
 
-Perfil.hasMany(Horario, { foreignKey: 'perfilId', as: 'horarios' });
-Horario.belongsTo(Perfil, { foreignKey: 'perfilId', as: 'perfil' });
+Medico.hasMany(Horario, { foreignKey: 'medicoId', as: 'horarios' });
+Horario.belongsTo(Medico, { foreignKey: 'medicoId', as: 'medico' });

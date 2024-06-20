@@ -13,9 +13,9 @@ export const Medico = sequelize.define('medico', {
         type: DataTypes.STRING,
         defaultValue: "general"
     },
-    disponibilidad: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
+    turno: {
+        type: DataTypes.STRING,
+        default: ""
     },
     perfilId: {
         type: DataTypes.INTEGER,

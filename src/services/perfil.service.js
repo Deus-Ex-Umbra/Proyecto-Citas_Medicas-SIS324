@@ -1,17 +1,17 @@
 import { Perfil } from '../models/perfil.js';
-import { Paciente } from '../models/paciente.js';
-import { Secretaria } from '../models/secretaria.js';
-import { Medico } from '../models/medico.js';
+import * as Paciente from '../services/paciente.service.js';
+import * as Secretaria from '../services/secretaria.service.js';
+import * as Medico from '../services/medico.service.js';
 
 export const createPerfil = async (data) => {
     try {
         const perfil = await Perfil.create(data);
         if (data.tipo_perfil === 'paciente') {
-            await Paciente.create({ perfilId: perfil.id });
+            await Paciente.createPaciente({ perfilId: perfil.id });
         } else if (data.tipo_perfil === 'secretaria') {
-            await Secretaria.create({ perfilId: perfil.id });
+            await Secretaria.createSecretaria({ perfilId: perfil.id });
         } else if (data.tipo_perfil === 'medico') {
-            await Medico.create({ perfilId: perfil.id });
+            await Medico.createMedico({ perfilId: perfil.id });
         }
         return perfil;
     } catch (error) {

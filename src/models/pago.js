@@ -1,22 +1,13 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Paciente } from '../models/paciente.js';
-import { Medico } from '../models/medico.js';
-import { Secretaria } from '../models/secretaria.js';
-import { Horario } from '../models/horario.js';
+import { Cita } from "./cita.js";
+import { Paciente } from "./paciente.js";
 
 export const Pago = sequelize.define('pago', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },
-    pacienteId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Paciente,
-            key: 'id'
-        }
     },
     monto: {
         type: DataTypes.DOUBLE,
@@ -34,24 +25,17 @@ export const Pago = sequelize.define('pago', {
         type: DataTypes.STRING,
         defaultValue: ""
     },
-    medicoId : {
+    citaId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Medico,
+            model: Cita,
             key: 'id'
         }
     },
-    secretariaId : {
+    pacienteId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Secretaria,
-            key: 'id'
-        }
-    },
-    horarioId : {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Horario,
+            model: Paciente,
             key: 'id'
         }
     }
@@ -59,14 +43,8 @@ export const Pago = sequelize.define('pago', {
     timestamps: false
 });
 
+Cita.hasMany(Pago, { foreignKey: 'citaId' });
+Pago.belongsTo(Cita, { foreignKey: 'citaId' });
+
 Paciente.hasMany(Pago, { foreignKey: 'pacienteId' });
 Pago.belongsTo(Paciente, { foreignKey: 'pacienteId' });
-
-Medico.hasMany(Pago, { foreignKey: 'medicoId' });
-Pago.belongsTo(Medico, { foreignKey: 'medicoId' });
-
-Secretaria.hasMany(Pago, { foreignKey: 'secretaria' });
-Pago.belongsTo(Secretaria, { foreignKey: 'secretaria' });
-
-Horario.hasMany(Pago, { foreignKey: 'horarioId' });
-Pago.belongsTo(Horario, { foreignKey: 'horarioId' });
