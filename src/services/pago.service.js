@@ -2,6 +2,7 @@ import { Pago } from '../models/pago.js';
 import { Cita } from '../models/cita.js';
 import { Paciente } from '../models/paciente.js';
 import { sequelize } from '../database/database.js';
+import { Op } from 'sequelize'; // Importar Op directamente desde sequelize
 
 export const createPago = async (data) => {
     const transaction = await sequelize.transaction();
@@ -103,22 +104,16 @@ export const getAllPagos = async () => {
     }
 };
 
-
-export const getPagosByPacienteInPeriod = async (pacienteId, fechaInicio, fechaFin) => {
+export const getPagosByPacienteAndDateRange = async (pacienteId, startDate, endDate) => {
     try {
-        const startDate = new Date(fechaInicio);
-        const endDate = new Date(fechaFin);
-        console.log(`Consulta - pacienteId: ${pacienteId}, fechaInicio: ${startDate}, fechaFin: ${endDate}`); // Añade este log
-        
         const pagos = await Pago.findAll({
             where: {
                 pacienteId,
                 fecha: {
-                    [Op.between]: [startDate, endDate]
+                    [Op.between]: [new Date(startDate), new Date(endDate)]
                 }
             }
         });
-        console.log(`Resultados de la consulta: ${JSON.stringify(pagos)}`); // Añade este log
         return pagos;
     } catch (error) {
         throw error;
